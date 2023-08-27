@@ -3,6 +3,7 @@ module github.com/n-aoki0409/go-layered-architecture-sample
 go 1.19
 
 require (
+	github.com/caarlos0/env/v9 v9.0.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/jinzhu/gorm v1.9.16
 )

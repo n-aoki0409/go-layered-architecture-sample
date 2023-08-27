@@ -37,12 +37,12 @@ type responseTask struct {
 func (th *taskHandler) Post(c *gin.Context) {
 	var req requestTask
 	if err := c.BindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	createdTask, err := th.taskUsecase.Create(req.Title, req.Content)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	res := responseTask{
@@ -57,12 +57,12 @@ func (th *taskHandler) Post(c *gin.Context) {
 func (th *taskHandler) Get(c *gin.Context) {
 	id, err := strconv.Atoi((c.Param("id")))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	foundTask, err := th.taskUsecase.FindByID(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	res := responseTask{
@@ -77,17 +77,17 @@ func (th *taskHandler) Get(c *gin.Context) {
 func (th *taskHandler) Put(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	var req requestTask
 	if err := c.Bind(&req); err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	updatedTask, err := th.taskUsecase.Update(id, req.Title, req.Content)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	res := responseTask{
@@ -102,12 +102,12 @@ func (th *taskHandler) Put(c *gin.Context) {
 func (th *taskHandler) Delete(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	err = th.taskUsecase.Delete(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	}
 
 	c.JSON(http.StatusNoContent, gin.H{"message": "delete succeed"})

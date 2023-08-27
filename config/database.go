@@ -1,12 +1,18 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 	"github.com/n-aoki0409/go-layered-architecture-sample/domain/model"
 )
 
 func NewDB() *gorm.DB {
-	db, err := gorm.Open("mysql", "user:password@tcp(sample_db)/sample?charset=utf8mb4&parseTime=True&loc=Local")
+	cfg, err := NewConfig()
+	if err != nil {
+		panic(err)
+	}
+	db, err := gorm.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s)/sample?charset=utf8mb4&parseTime=True&loc=Local", cfg.DBUser, cfg.DBPassword, cfg.DBHost))
 	if err != nil {
 		panic(err)
 	}
